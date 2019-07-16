@@ -14,11 +14,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if let url = launchOptions?[.url] as? URL {
+            // If we get here, we know launchOptions is not nil, we know
+            // key .url was in the launchOptions dictionary, and we know
+            // that the type of the launchOptions was correctly identified
+            // as URL.  At this point, url has the type URL and is ready to use.
+           
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = mainStoryboard.instantiateViewController(withIdentifier: "QuestionsViewController") as! QuestionsViewController
+            let navController = UINavigationController(rootViewController: vc)
+            vc.FromURL = true
+            vc.questionUrlID = 2
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = navController
+            self.window?.makeKeyAndVisible()
+        }
+        
+         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+         let vc = mainStoryboard.instantiateViewController(withIdentifier: "InitialViewController") as! InitialViewController
+         let navController = UINavigationController(rootViewController: vc)
+         self.window = UIWindow(frame: UIScreen.main.bounds)
+         self.window?.rootViewController = navController
+         self.window?.makeKeyAndVisible()
         return true
     }
 
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
